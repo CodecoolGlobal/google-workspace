@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Credentials — NEVER commit these
+google_token.json
+google_client_secret.json
+*credentials*.json
+*token*.json
+
+# OS
+.DS_Store
