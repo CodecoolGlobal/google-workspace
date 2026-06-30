@@ -202,6 +202,13 @@ def remove_permission(file_id: str, permission_id: str) -> dict:
 # ── Docs ─────────────────────────────────────────────────────────────────────
 
 @mcp.tool()
+def create_doc(title: str, text: str = "", parent_id: str = "") -> dict:
+    """Create a native Google Doc, optionally seeded with initial text and
+    placed inside parent_id. Returns the created file's metadata."""
+    return g.create_doc(title, text=text or None, parent_id=parent_id or None)
+
+
+@mcp.tool()
 def read_doc(doc_id: str) -> str:
     """Return the full plain text of a Google Doc."""
     return g.read_doc(doc_id)

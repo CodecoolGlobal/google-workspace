@@ -302,6 +302,25 @@ def remove_permission(file_id: str, permission_id: str):
 
 # ── Docs ──────────────────────────────────────────────────────────────────────
 
+def create_doc(title: str, text: str = None, parent_id: str = None) -> dict:
+    """Create a native Google Doc and optionally seed it with initial text.
+
+    The Doc is created empty via the Drive API (body mimeType = Google Doc, no
+    media — which sidesteps the "Invalid MIME type for the uploaded content"
+    error you get when trying to upload bytes *as* a Google type). If `text` is
+    given, it's inserted afterwards through the Docs API. Returns the created
+    file's metadata (id, name, webViewLink)."""
+    meta = {"name": title, "mimeType": MIME["doc"]}
+    if parent_id:
+        meta["parents"] = [parent_id]
+    f = drive_service().files().create(
+        body=meta, fields="id,name,webViewLink", supportsAllDrives=True,
+    ).execute()
+    if text:
+        append_to_doc(f["id"], text)
+    return f
+
+
 def read_doc(doc_id: str) -> str:
     """Return the full plain text of a Google Doc."""
     doc = docs_service().documents().get(documentId=doc_id).execute()

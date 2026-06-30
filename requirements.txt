@@ -1,3 +1,7 @@
 mcp>=1.2.0
 google-api-python-client>=2.0.0
 google-auth>=2.0.0
+# google-auth needs cryptography (JWT/ES signing); pinned explicitly so a fresh
+# environment doesn't fall back to a broken/older system build. cffi comes in
+# transitively via cryptography.
+cryptography>=42.0.0
